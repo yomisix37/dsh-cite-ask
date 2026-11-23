@@ -1,0 +1,76 @@
+{
+  "name": "dsh-cite-ask",
+  "version": "1.0.0",
+  "description": "Ask about selected text in any DSH chat message: quote the passage into the composer with your own numbered question, annotate several passages in one message, and get item-by-item answers instead of copy-pasting excerpts.",
+  "type": "module",
+  "license": "MIT",
+  "author": "yomi",
+  "homepage": "https://github.com/yomisix37/dsh-cite-ask#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yomisix37/dsh-cite-ask.git"
+  },
+  "keywords": [
+    "deepseek",
+    "harness",
+    "dsh",
+    "dsh-plugin",
+    "quote",
+    "quotation",
+    "citation",
+    "cite",
+    "ask",
+    "question",
+    "follow-up",
+    "annotation",
+    "annotate",
+    "selected-text",
+    "selection",
+    "composer",
+    "input-box",
+    "copy-paste",
+    "long-answer",
+    "chat-ui",
+    "引用",
+    "引文",
+    "批注",
+    "标注",
+    "提问",
+    "追问",
+    "选中",
+    "输入框"
+  ],
+  "engines": {
+    "dsh": ">=0.2.0-rc.1 <0.2.2 || >=0.2.2-0 <0.3.0-0"
+  },
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "cordis.patch.yml",
+    "locale/*.json",
+    "icon.svg",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "dsh": {
+    "bundle": { "patch": "./cordis.patch.yml" },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": [
+        "@deepseek-ai/dsh-client-locale",
+        "@deepseek-ai/dsh-client-ui-renderer",
+        "@deepseek-ai/dsh-client-ui-conversation"
+      ]
+    }
+  }
+}
