@@ -1,6 +1,6 @@
 {
   "name": "dsh-cite-ask",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Ask about selected text in any DSH chat message: quote the passage into the composer with your own numbered question, annotate several passages in one message, and get item-by-item answers instead of copy-pasting excerpts.",
   "type": "module",
   "license": "MIT",
@@ -56,13 +56,16 @@
     "locale/*.json",
     "icon.svg",
     "README.md",
+    "README.en.md",
     "LICENSE"
   ],
   "publishConfig": {
     "access": "public"
   },
   "dsh": {
-    "bundle": { "patch": "./cordis.patch.yml" },
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
     "client": {
       "platform": "web",
       "immediately": true,

@@ -1,91 +1,71 @@
 # dsh-cite-ask
 
-Stop copy-pasting: select a passage, write the question right next to it, and
-send both together.
+> 不用再复制粘贴：选中一段话，就地问。
 
-## Why
+中文 | [English](README.en.md)
 
-- **The question stays attached to the passage.** The model receives
-  `> the passage` followed by `Question 1: …`, so it never has to guess which
-  sentence you mean.
-- **No copy-paste, no separators.** Select, type, Enter. The passage and your
-  question reach the composer as one block.
-- **Ask several times in one message.** Numbering continues automatically, so the
-  agent can answer item by item instead of in one blob.
-- **Your draft is kept.** The plugin appends at the caret: existing text and
-  `@file` reference chips are untouched.
-- **Safe with a Chinese IME.** The Enter that confirms an IME candidate does not
-  submit the question, and an accidental click outside the card does not lose
-  what you typed.
-- **Small and local.** Browser-side only: no Host code, no network requests, no
-  install scripts.
+## 为什么需要它
 
-## Install
+- **问题贴着原文。** 模型收到的是「引文 + 问题 N」，不用猜你指的是哪一句。
+- **不用复制粘贴、不用分隔符。** 选中 → 写 → 回车，引文和问题一起进输入框。
+- **一条消息问好几段。** 编号自动接着排，模型可以逐条回答，而不是糊成一团。
+- **不动你已有的草稿。** 只在光标处追加，原先打的字和 `@` 文件引用都保留。
+- **对中文输入法友好。** 选词那个 Enter 不会误提交；手滑点到卡片外面，问题也不会丢。
+- **很小很干净。** 纯浏览器端：没有 Host 代码、不发网络请求、安装时不跑构建脚本。
+
+## 安装
 
 ```sh
 dsh plugin --profile <profile> add https://github.com/yomisix37/dsh-cite-ask/releases/latest/download/dsh-cite-ask.tgz
 ```
 
-In DSH Desktop, open **Settings → Plugins → Add plugin** and enter the same URL.
-From the repository source instead: `dsh plugin --profile <profile> add github:yomisix37/dsh-cite-ask`.
-Reload the page (or restart `dsh web`) after installing.
+桌面端：**设置 → 插件 → 添加插件**，把上面那个 `.tgz` 链接粘进去。
+想从源码装也可以：`dsh plugin --profile <profile> add github:yomisix37/dsh-cite-ask`。
 
-中文：在桌面端点「设置 → 插件 → 添加插件」，粘贴上面那个 `.tgz` 链接即可；装完刷新页面。
+装完刷新页面（或重启 `dsh web`）。
 
-## Use it
+## 怎么用
 
-1. Select text in a message (mine or yours).
-2. The floating toolbar offers **Quote** and **Ask about this**.
-3. **Ask about this** opens a small card: the passage stays visible above a
-   question box that already has keyboard focus.
-4. Type the question, then:
-   - **Enter** adds it to the composer and closes the card;
-   - **Add & send** (**Cmd/Ctrl+Enter**) adds it and sends the message at once;
-   - **Shift+Enter** starts a new line in the question.
-5. The composer receives the passage as a blockquote followed by your numbered
-   question. Repeat for more passages in the same message, then send.
+1. 在任意消息里选中一段文字（我的、你的都行）。
+2. 浮动工具条会出现两个动作：**引用** 和 **就这段提问**。
+3. 点 **就这段提问**，弹出小卡片：上面保留着被选中的原文，下面的输入框已经聚焦。
+4. 写问题，然后：
+   - **Enter** —— 加入输入框，卡片关闭；
+   - **加入并发送** —— 加入并立刻发送这条消息；
+   - **Shift+Enter** —— 问题里换行。
+5. 输入框里得到「引文 + 带编号的问题」。想追问多处，回到第 1 步再选一段、再加一条，最后统一发送。
 
-**Quote** keeps the behaviour of DSH's selection toolbar: the full selected
-text goes into the composer as a blockquote.
+**引用** 保留 DSH 原本的行为：整段原文作为引用进入输入框。
 
-## What the model sees
+## 模型看到什么
 
-One message per batch, for example:
+一次发出的消息长这样：
 
 ```
-> the selected passage
+> 被选中的那一段原文
 
-Question 1: what does this sentence mean?
+问题 1：这句话是什么意思？
 
-> another passage
+> 另一段原文
 
-Question 2: why here and not earlier?
+问题 2：为什么这里不用另一种写法？
 ```
 
-Numbering continues from the questions already in the draft, and quoted
-passages keep their line breaks.
+编号会接着草稿里已有的问题往下排，引文里的换行也会原样保留。
 
-## Notes
+## 说明
 
-- The plugin never sends a message you did not submit: **Add question** only
-  writes into the composer, and **Add & send** is an explicit click or key.
-- A question with no passage is never sent by this plugin; it always writes a
-  quote first.
-- Passages longer than 4000 characters are trimmed for a question, and the card
-  says so. **Quote** is not trimmed.
-- A typed question survives an accidental click outside the card: select the
-  same passage again and the text is restored. **Cancel** discards it.
-- The toolbar is rendered for the selection gesture that DSH's own quote
-  selection dispatches. With that built-in selection turned off, this toolbar
-  does not appear.
-- The **Ask** card replaces the presentation of DSH's selection toolbar so both
-  actions share one place; **Quote** keeps the original result.
+- 插件不会替你发送任何东西：**加入提问**只写进输入框，**加入并发送**需要你自己点或按。
+- 没有引文就不会发：这个插件永远先写引用，再写问题。
+- 提问用的引文超过 4000 字会被截断，卡片上会说明；**引用**动作不截断。
+- 问题没写完时点到卡片外面，卡片会关，但文字不会丢：重新选中同一段、再点「就这段提问」就会回填。点**取消**才会丢弃。
+- 工具条挂在 DSH 自带的“选中文字”手势上；如果关掉内置的引用选择，这个工具条也会一起消失。
+- **就这段提问** 的卡片替代了内置工具条的呈现方式（让两个动作共用一个位置），**引用** 的结果与原先一致。
 
-## Requirements
+## 环境要求
 
-DSH 0.2.x on the Web surface (`engines.dsh` declares the range). No Host-side
-code, no configuration, no network access, no install scripts.
+DSH 0.2.x 的 Web 界面（`engines.dsh` 里声明了范围）。无 Host 代码、无配置项、不联网、无安装脚本。
 
-## License
+## 许可证
 
 MIT
